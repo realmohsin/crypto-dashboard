@@ -32,7 +32,7 @@ const globalStyles = css`
   }
 
   body {
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: white;
     font-family: 'Do Hyeon', sans-serif;
     background: #010e2c;
