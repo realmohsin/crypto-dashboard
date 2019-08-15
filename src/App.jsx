@@ -1,15 +1,15 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
+import HomePage from './pages/HomePage'
 
 class App extends React.Component {
   render () {
     return (
       <>
         <Global styles={globalStyles} />
-        <h1>rm-create-spa-2</h1>
         <Switch>
-          <Route exact path='/' render={() => <h2>Home Page</h2>} />
+          <Route exact path='/' component={HomePage} />
           <Route path='*' render={() => <h2>Page Not Found</h2>} />
         </Switch>
       </>
@@ -33,6 +33,9 @@ const globalStyles = css`
 
   body {
     font-size: 1.6rem;
+    color: white;
+    font-family: 'Do Hyeon', sans-serif;
+    background: #010e2c;
   }
 `
 
