@@ -1,18 +1,57 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
-import HomePage from './pages/HomePage'
+import SettingsPage from './pages/SettingsPage'
+import Navbar from './components/Navbar'
+import DashboardPage from './pages/DashboardPage'
+import AppLayout from './components/AppLayout'
+import appContext from './appContext'
 
 class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      ...this.getSavedSettings(),
+      confirmFavorites: this.confirmFavorites
+    }
+  }
+
+  getSavedSettings () {
+    const cryptoBoardData = JSON.parse(localStorage.getItem('cryptoBoard'))
+    if (!cryptoBoardData) {
+      return { firstVisit: true }
+    }
+    return { firstVisit: false }
+  }
+
+  confirmFavorites = () => {
+    localStorage.setItem(
+      'cryptoBoard',
+      JSON.stringify({
+        test: 'hello'
+      })
+    )
+    this.setState({
+      firstVisit: false
+    })
+  }
+
   render () {
+    const { firstVisit } = this.state
+    const rootRedirectPath = firstVisit ? '/settings' : '/dashboard'
     return (
-      <>
+      <appContext.Provider value={this.state}>
         <Global styles={globalStyles} />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='*' render={() => <h2>Page Not Found</h2>} />
-        </Switch>
-      </>
+        <AppLayout>
+          <Navbar />
+          <Switch>
+            <Route exact path='/' render={() => <Redirect to={rootRedirectPath} />} />
+            <Route path='/dashboard' component={DashboardPage} />
+            <Route path='/settings' component={SettingsPage} />
+            <Route path='*' render={() => <h2>Page Not Found</h2>} />
+          </Switch>
+        </AppLayout>
+      </appContext.Provider>
     )
   }
 }
@@ -36,6 +75,11 @@ const globalStyles = css`
     color: white;
     font-family: 'Do Hyeon', sans-serif;
     background: #010e2c;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 `
 
