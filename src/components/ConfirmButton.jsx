@@ -2,11 +2,17 @@ import React from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import appContext from '../appContext'
+import { fontSize1, greenBoxShadow, color3 } from '../styles/styles'
 
 const ConfirmButtonStyled = styled.div`
   margin: 20px;
-  color: green;
+  padding: 5px;
+  color: ${color3};
+  ${fontSize1};
   cursor: pointer;
+  &:hover {
+    ${greenBoxShadow};
+  }
 `
 
 const CenterDiv = styled.div`
