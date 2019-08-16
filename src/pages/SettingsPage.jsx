@@ -8,6 +8,7 @@ const SettingsPage = props => {
   return (
     <>
       <WelcomeMessage />
+      <CoinGrid topSection />
       <ConfirmButton />
       <CoinGrid />
     </>
