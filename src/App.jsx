@@ -47,19 +47,23 @@ class App extends React.Component {
   }
 
   render () {
-    const { firstVisit } = this.state
+    const { firstVisit, coinList } = this.state
     const rootRedirectPath = firstVisit ? '/settings' : '/dashboard'
     return (
       <appContext.Provider value={this.state}>
         <Global styles={globalStyles} />
         <AppLayout>
           <Navbar />
-          <Switch>
-            <Route exact path='/' render={() => <Redirect to={rootRedirectPath} />} />
-            <Route path='/dashboard' component={DashboardPage} />
-            <Route path='/settings' component={SettingsPage} />
-            <Route path='*' render={() => <h2>Page Not Found</h2>} />
-          </Switch>
+          {coinList ? (
+            <Switch>
+              <Route exact path='/' render={() => <Redirect to={rootRedirectPath} />} />
+              <Route path='/dashboard' component={DashboardPage} />
+              <Route path='/settings' component={SettingsPage} />
+              <Route path='*' render={() => <h2>Page Not Found</h2>} />
+            </Switch>
+          ) : (
+            <div>Loading Coins</div>
+          )}
         </AppLayout>
       </appContext.Provider>
     )
