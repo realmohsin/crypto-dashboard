@@ -1,4 +1,6 @@
 import React from 'react'
+import pull from 'lodash/pull'
+import includes from 'lodash/includes'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 import cc from 'cryptocompare'
@@ -8,12 +10,18 @@ import DashboardPage from './pages/DashboardPage'
 import AppLayout from './components/AppLayout'
 import appContext from './appContext'
 
+const MAX_FAVORITES = 10
+
 class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      ...this.getSavedSettings(),
-      confirmFavorites: this.confirmFavorites
+      favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
+      confirmFavorites: this.confirmFavorites,
+      addCoin: this.addCoin,
+      removeCoin: this.removeCoin,
+      isInFavorites: this.isInFavorites,
+      ...this.getSavedSettings()
     }
   }
 
@@ -26,19 +34,35 @@ class App extends React.Component {
     this.setState({ coinList })
   }
 
+  addCoin = key => {
+    const favorites = [...this.state.favorites]
+    if (favorites.length < MAX_FAVORITES) {
+      favorites.push(key)
+      this.setState({ favorites })
+    }
+  }
+
+  removeCoin = key => {
+    const favorites = [...this.state.favorites]
+    this.setState({ favorites: pull(favorites, key) })
+  }
+
+  isInFavorites = key => includes(this.state.favorites, key)
+
   getSavedSettings () {
     const cryptoBoardData = JSON.parse(localStorage.getItem('cryptoBoard'))
     if (!cryptoBoardData) {
       return { firstVisit: true }
     }
-    return { firstVisit: false }
+    const favorites = cryptoBoardData.favorites
+    return { firstVisit: false, favorites }
   }
 
   confirmFavorites = () => {
     localStorage.setItem(
       'cryptoBoard',
       JSON.stringify({
-        test: 'hello'
+        favorites: this.state.favorites
       })
     )
     this.setState({
