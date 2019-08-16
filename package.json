@@ -26,6 +26,7 @@
     "babel-loader": "8.0.5",
     "clean-webpack-plugin": "2.0.2",
     "cross-env": "5.2.0",
+    "cryptocompare": "1.0.0",
     "css-loader": "2.1.1",
     "eslint": "5.16.0",
     "eslint-config-standard": "12.0.0",

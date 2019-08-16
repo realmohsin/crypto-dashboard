@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
+import cc from 'cryptocompare'
 import SettingsPage from './pages/SettingsPage'
 import Navbar from './components/Navbar'
 import DashboardPage from './pages/DashboardPage'
@@ -14,6 +15,15 @@ class App extends React.Component {
       ...this.getSavedSettings(),
       confirmFavorites: this.confirmFavorites
     }
+  }
+
+  componentDidMount () {
+    this.fetchCoins()
+  }
+
+  fetchCoins = async () => {
+    const coinList = (await cc.coinList()).Data
+    this.setState({ coinList })
   }
 
   getSavedSettings () {
