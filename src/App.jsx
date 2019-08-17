@@ -21,12 +21,14 @@ class App extends React.Component {
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
+      setFilteredCoins: this.setFilteredCoins,
       ...this.getSavedSettings()
     }
   }
 
   componentDidMount () {
     this.fetchCoins()
+    this.fetchPrices()
   }
 
   fetchCoins = async () => {
@@ -49,6 +51,8 @@ class App extends React.Component {
 
   isInFavorites = key => includes(this.state.favorites, key)
 
+  setFilteredCoins = filteredCoins => this.setState({ filteredCoins })
+
   getSavedSettings () {
     const cryptoBoardData = JSON.parse(localStorage.getItem('cryptoBoard'))
     if (!cryptoBoardData) {
@@ -65,9 +69,33 @@ class App extends React.Component {
         favorites: this.state.favorites
       })
     )
-    this.setState({
-      firstVisit: false
-    })
+    this.setState(
+      {
+        firstVisit: false
+      },
+      () => {
+        this.fetchPrices()
+      }
+    )
+  }
+
+  fetchPrices = async () => {
+    if (this.state.firstVisit) return
+    const prices = await this.prices()
+    this.setState({ prices })
+  }
+
+  prices = async () => {
+    const returnData = []
+    for (let i = 0; i < this.state.favorites.length; i++) {
+      try {
+        const priceData = await cc.priceFull(this.state.favorites[i], 'USD')
+        returnData.push(priceData)
+      } catch (error) {
+        console.warn('Fetch price error: ', error)
+      }
+    }
+    return returnData
   }
 
   render () {
