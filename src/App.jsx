@@ -22,6 +22,7 @@ class App extends React.Component {
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       setFilteredCoins: this.setFilteredCoins,
+      setMainFavorite: this.setMainFavorite,
       ...this.getSavedSettings()
     }
   }
@@ -58,24 +59,40 @@ class App extends React.Component {
     if (!cryptoBoardData) {
       return { firstVisit: true }
     }
-    const favorites = cryptoBoardData.favorites
-    return { firstVisit: false, favorites }
+    const { favorites, mainFavorite } = cryptoBoardData
+    return { firstVisit: false, favorites, mainFavorite }
   }
 
   confirmFavorites = () => {
-    localStorage.setItem(
-      'cryptoBoard',
-      JSON.stringify({
-        favorites: this.state.favorites
-      })
-    )
+    const mainFavorite = this.state.favorites[0]
     this.setState(
       {
-        firstVisit: false
+        firstVisit: false,
+        mainFavorite
       },
       () => {
         this.fetchPrices()
       }
+    )
+    localStorage.setItem(
+      'cryptoBoard',
+      JSON.stringify({
+        favorites: this.state.favorites,
+        mainFavorite
+      })
+    )
+  }
+
+  setMainFavorite = coinSym => {
+    this.setState({
+      mainFavorite: coinSym
+    })
+    localStorage.setItem(
+      'cryptoBoard',
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem('cryptoBoard')),
+        mainFavorite: coinSym
+      })
     )
   }
 
