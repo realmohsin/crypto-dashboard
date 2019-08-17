@@ -3,6 +3,7 @@ import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import PriceGrid from '../components/PriceGrid'
 import CoinSpotlight from '../components/CoinSpotlight'
+import PriceChart from '../components/PriceChart'
 
 const ChartGrid = styled.div`
   display: grid;
@@ -17,7 +18,7 @@ const DashboardPage = props => {
       <PriceGrid />
       <ChartGrid>
         <CoinSpotlight />
-        <div>Chart goes here</div>
+        <PriceChart />
       </ChartGrid>
     </>
   )
