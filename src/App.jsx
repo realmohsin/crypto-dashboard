@@ -81,7 +81,8 @@ class App extends React.Component {
 
   fetchPrices = async () => {
     if (this.state.firstVisit) return
-    const prices = await this.prices()
+    let prices = await this.prices()
+    prices = prices.filter(price => !!Object.keys(price).length)
     this.setState({ prices })
   }
 
