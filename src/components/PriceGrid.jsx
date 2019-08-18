@@ -17,7 +17,9 @@ const PriceGrid = props => {
       {({ prices }) => (
         <PriceGridStyled>
           {prices &&
-            prices.map((price, index) => <PriceTile price={price} index={index} />)}
+            prices.map((price, index) => (
+              <PriceTile key={`priceTile-${index}`} price={price} index={index} />
+            ))}
         </PriceGridStyled>
       )}
     </appContext.Consumer>
