@@ -1,16 +1,25 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import styled from '@emotion/styled'
 import appContext from '../appContext'
+
+const WelcomeMessageStyled = styled.div`
+  margin-top: 4rem;
+  font-size: 3.4rem;
+  text-align: center;
+`
 
 const WelcomeMessage = props => {
   return (
     <appContext.Consumer>
       {({ firstVisit }) =>
         firstVisit ? (
-          <div>
-            Welcome to the Crypto Dashboard, please select your favorite coins to begin
-          </div>
-        ) : null
+          <WelcomeMessageStyled>
+            Welcome to CryptoPrice. Please confirm your favorite coins to begin:
+          </WelcomeMessageStyled>
+        ) : (
+          <WelcomeMessageStyled>Set your favorite coins:</WelcomeMessageStyled>
+        )
       }
     </appContext.Consumer>
   )

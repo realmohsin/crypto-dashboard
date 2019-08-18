@@ -1,28 +1,39 @@
 import React from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import appContext from '../appContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBarcode } from '@fortawesome/free-solid-svg-icons'
 
 const Logo = styled.div`
-  font-size: 1.5em;
+  color: #d5be00;
+  font-size: 1.3em;
 `
 
 const NavbarElem = styled.nav`
+  color: gray;
   display: grid;
-  grid-template-columns: 18rem auto 12rem 12rem;
+  grid-template-columns: 30rem auto 12rem 12rem;
   margin-bottom: 4rem;
 `
 
+// #03ff03
+
 const activeStyle = {
-  textShadow: '0px 0px 25px #03ff03'
+  color: '#D5BE00',
+  textShadow: '0px 0px 15px #03ff03'
 }
 
 const Navbar = () => (
   <appContext.Consumer>
     {({ firstVisit }) => (
       <NavbarElem>
-        <Logo>CryptoBoard</Logo>
+        <Logo>
+          <Link to='/'>
+            <FontAwesomeIcon icon={faBarcode} /> CryptoPrice
+          </Link>
+        </Logo>
         <div />
         {firstVisit ? (
           <div />

@@ -4,11 +4,12 @@ import styled from '@emotion/styled'
 
 const CoinImageStyled = styled.img`
   height: 5rem;
+  margin-top: 1.5rem;
   ${props =>
     props.spotlight &&
     css`
       height: 20rem;
-      margin: auto;
+      margin: 0 auto;
       display: block;
     `}
 `

@@ -1,12 +1,15 @@
 import React from 'react'
 import { css } from '@emotion/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import styled from '@emotion/styled'
 import appContext from '../appContext'
 import { fontSize1, greenBoxShadow, color3 } from '../styles/styles'
 
 const ConfirmButtonStyled = styled.div`
-  margin: 20px;
-  padding: 5px;
+  display: inline-block;
+  margin: 3rem;
+  padding: 0.5rem 1.5rem;
   color: ${color3};
   ${fontSize1};
   cursor: pointer;
@@ -25,9 +28,13 @@ const ConfirmButton = props => {
     <appContext.Consumer>
       {({ confirmFavorites }) => (
         <CenterDiv>
-          <ConfirmButtonStyled onClick={confirmFavorites}>
-            Confirm Favorites
-          </ConfirmButtonStyled>
+          <div>
+            <FontAwesomeIcon icon={faArrowRight} />
+            <ConfirmButtonStyled onClick={confirmFavorites}>
+              Confirm Favorites
+            </ConfirmButtonStyled>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </div>
         </CenterDiv>
       )}
     </appContext.Consumer>

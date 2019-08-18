@@ -8,7 +8,7 @@ const PriceGridStyled = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1.5rem;
-  margin-top: 4rem;
+  margin-top: 8rem;
 `
 
 const PriceGrid = props => {

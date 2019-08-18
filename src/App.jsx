@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 import DashboardPage from './pages/DashboardPage'
 import AppLayout from './components/AppLayout'
 import appContext from './appContext'
+import { history } from './index'
 
 const MAX_FAVORITES = 10
 const TIME_UNITS = 10
@@ -20,7 +21,18 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
+      favorites: [
+        'BTC',
+        'ETH',
+        'NXT',
+        'LTC',
+        'CLOAK',
+        '888',
+        'DASH',
+        'BTCD',
+        'CHASH',
+        'BLU'
+      ],
       confirmFavorites: this.confirmFavorites,
       timeInterval: 'months',
       addCoin: this.addCoin,
@@ -52,8 +64,6 @@ class App extends React.Component {
       subtractMonthsWeeksOrDays = subDays
     }
     const results = await this.historical(today, subtractMonthsWeeksOrDays)
-    console.log('results: ', results)
-
     const historicalPrices = [
       {
         name: this.state.mainFavorite,
@@ -63,7 +73,6 @@ class App extends React.Component {
         ])
       }
     ]
-    console.log('historicalPrices: ', historicalPrices)
     this.setState({ historicalPrices })
   }
 
@@ -101,14 +110,16 @@ class App extends React.Component {
 
   isInFavorites = key => includes(this.state.favorites, key)
 
-  setFilteredCoins = filteredCoins => this.setState({ filteredCoins })
-
+  setFilteredCoins = filteredCoins => {
+    console.log(filteredCoins)
+    this.setState({ filteredCoins })
+  }
   getSavedSettings () {
-    const cryptoBoardData = JSON.parse(localStorage.getItem('cryptoBoard'))
-    if (!cryptoBoardData) {
+    const cryptoPriceData = JSON.parse(localStorage.getItem('cryptoPrice'))
+    if (!cryptoPriceData) {
       return { firstVisit: true }
     }
-    const { favorites, mainFavorite } = cryptoBoardData
+    const { favorites, mainFavorite } = cryptoPriceData
     return { firstVisit: false, favorites, mainFavorite }
   }
 
@@ -124,10 +135,11 @@ class App extends React.Component {
       () => {
         this.fetchPrices()
         this.fetchHistorical()
+        history.push('/dashboard')
       }
     )
     localStorage.setItem(
-      'cryptoBoard',
+      'cryptoPrice',
       JSON.stringify({
         favorites: this.state.favorites,
         mainFavorite
@@ -144,9 +156,9 @@ class App extends React.Component {
       this.fetchHistorical
     )
     localStorage.setItem(
-      'cryptoBoard',
+      'cryptoPrice',
       JSON.stringify({
-        ...JSON.parse(localStorage.getItem('cryptoBoard')),
+        ...JSON.parse(localStorage.getItem('cryptoPrice')),
         mainFavorite: coinSym
       })
     )
@@ -186,7 +198,12 @@ class App extends React.Component {
           {coinList ? (
             <Switch>
               <Route exact path='/' render={() => <Redirect to={rootRedirectPath} />} />
-              <Route path='/dashboard' component={DashboardPage} />
+              <Route
+                path='/dashboard'
+                render={() =>
+                  firstVisit ? <Redirect to={rootRedirectPath} /> : <DashboardPage />
+                }
+              />
               <Route path='/settings' component={SettingsPage} />
               <Route path='*' render={() => <h2>Page Not Found</h2>} />
             </Switch>

@@ -8,15 +8,22 @@ import pickBy from 'lodash/pickBy'
 import fuzzy from 'fuzzy'
 
 const SearchGrid = styled.div`
+  margin-top: 5rem;
   display: grid;
-  grid-template-columns: 20rem 1fr;
+  grid-template-columns: 15rem 1fr;
+`
+
+const SearchLabel = styled.div`
+  font-size: 2.4rem;
+  place-self: center;
 `
 
 const SearchInput = styled.input`
   ${backgroundColor2};
   ${fontSize2};
   border: 1px solid;
-  height: 2.5rem;
+  height: 4.5rem;
+  padding: 1rem;
   color: #1163c9;
   place-self: center left;
 `
@@ -35,10 +42,6 @@ const handleFilter = debounce((inputValue, setFilteredCoins, coinList) => {
 
 const filterCoins = (e, setFilteredCoins, coinList) => {
   const inputValue = e.target.value
-  if (!inputValue) {
-    setFilteredCoins(null)
-    return
-  }
   handleFilter(inputValue, setFilteredCoins, coinList)
 }
 
@@ -47,7 +50,7 @@ const SearchBar = props => {
     <appContext.Consumer>
       {({ setFilteredCoins, coinList }) => (
         <SearchGrid>
-          <h2>Search</h2>
+          <SearchLabel>Search:</SearchLabel>
           <SearchInput onKeyUp={e => filterCoins(e, setFilteredCoins, coinList)} />
         </SearchGrid>
       )}
