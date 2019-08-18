@@ -2,6 +2,8 @@ import React from 'react'
 import pull from 'lodash/pull'
 import includes from 'lodash/includes'
 import subMonths from 'date-fns/sub_months'
+import subDays from 'date-fns/sub_days'
+import subWeeks from 'date-fns/sub_weeks'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 import cc from 'cryptocompare'
@@ -20,11 +22,13 @@ class App extends React.Component {
     this.state = {
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
       confirmFavorites: this.confirmFavorites,
+      timeInterval: 'months',
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       setFilteredCoins: this.setFilteredCoins,
       setMainFavorite: this.setMainFavorite,
+      changeChartSelect: this.changeChartSelect,
       ...this.getSavedSettings()
     }
   }
@@ -38,13 +42,23 @@ class App extends React.Component {
   fetchHistorical = async () => {
     if (this.state.firstVisit) return
     const today = new Date()
-    const results = await this.historical(today)
+    const timeInterval = this.state.timeInterval
+    let subtractMonthsWeeksOrDays
+    if (timeInterval === 'months') {
+      subtractMonthsWeeksOrDays = subMonths
+    } else if (timeInterval === 'weeks') {
+      subtractMonthsWeeksOrDays = subWeeks
+    } else if (timeInterval === 'days') {
+      subtractMonthsWeeksOrDays = subDays
+    }
+    const results = await this.historical(today, subtractMonthsWeeksOrDays)
     console.log('results: ', results)
+
     const historicalPrices = [
       {
         name: this.state.mainFavorite,
         data: results.map((priceObj, index) => [
-          subMonths(today, TIME_UNITS - index).valueOf(),
+          subtractMonthsWeeksOrDays(today, TIME_UNITS - index).valueOf(),
           priceObj.USD
         ])
       }
@@ -53,11 +67,15 @@ class App extends React.Component {
     this.setState({ historicalPrices })
   }
 
-  historical = today => {
+  historical = (today, subtractMonthsWeeksOrDays) => {
     const promises = []
     for (let units = TIME_UNITS; units > 0; units--) {
       promises.push(
-        cc.priceHistorical(this.state.mainFavorite, ['USD'], subMonths(today, units))
+        cc.priceHistorical(
+          this.state.mainFavorite,
+          ['USD'],
+          subtractMonthsWeeksOrDays(today, units)
+        )
       )
     }
     return Promise.all(promises)
@@ -153,6 +171,9 @@ class App extends React.Component {
     }
     return returnData
   }
+
+  changeChartSelect = timeInterval =>
+    this.setState({ timeInterval, historicalPrices: null }, this.fetchHistorical)
 
   render () {
     const { firstVisit, coinList } = this.state
