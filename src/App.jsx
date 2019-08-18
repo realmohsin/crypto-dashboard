@@ -1,6 +1,7 @@
 import React from 'react'
 import pull from 'lodash/pull'
 import includes from 'lodash/includes'
+import subMonths from 'date-fns/sub_months'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 import cc from 'cryptocompare'
@@ -11,6 +12,7 @@ import AppLayout from './components/AppLayout'
 import appContext from './appContext'
 
 const MAX_FAVORITES = 10
+const TIME_UNITS = 10
 
 class App extends React.Component {
   constructor (props) {
@@ -30,6 +32,35 @@ class App extends React.Component {
   componentDidMount () {
     this.fetchCoins()
     this.fetchPrices()
+    this.fetchHistorical()
+  }
+
+  fetchHistorical = async () => {
+    if (this.state.firstVisit) return
+    const today = new Date()
+    const results = await this.historical(today)
+    console.log('results: ', results)
+    const historicalPrices = [
+      {
+        name: this.state.mainFavorite,
+        data: results.map((priceObj, index) => [
+          subMonths(today, TIME_UNITS - index).valueOf(),
+          priceObj.USD
+        ])
+      }
+    ]
+    console.log('historicalPrices: ', historicalPrices)
+    this.setState({ historicalPrices })
+  }
+
+  historical = today => {
+    const promises = []
+    for (let units = TIME_UNITS; units > 0; units--) {
+      promises.push(
+        cc.priceHistorical(this.state.mainFavorite, ['USD'], subMonths(today, units))
+      )
+    }
+    return Promise.all(promises)
   }
 
   fetchCoins = async () => {
@@ -68,10 +99,13 @@ class App extends React.Component {
     this.setState(
       {
         firstVisit: false,
-        mainFavorite
+        mainFavorite,
+        prices: null,
+        historicalPrices: null
       },
       () => {
         this.fetchPrices()
+        this.fetchHistorical()
       }
     )
     localStorage.setItem(
@@ -84,9 +118,13 @@ class App extends React.Component {
   }
 
   setMainFavorite = coinSym => {
-    this.setState({
-      mainFavorite: coinSym
-    })
+    this.setState(
+      {
+        mainFavorite: coinSym,
+        historicalPrices: null
+      },
+      this.fetchHistorical
+    )
     localStorage.setItem(
       'cryptoBoard',
       JSON.stringify({
