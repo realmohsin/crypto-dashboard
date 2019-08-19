@@ -12,6 +12,13 @@ const CoinImageStyled = styled.img`
       margin: 0 auto;
       display: block;
     `}
+  @media (max-width: 900px) {
+    height: 7rem;
+    margin: 1rem;
+  }
+  @media (max-width: 500px) {
+    height: 4rem;
+  }
 `
 
 const CoinImage = ({ coin, spotlight }) => {

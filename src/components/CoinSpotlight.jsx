@@ -9,6 +9,17 @@ const SpotlightName = styled.h1`
   text-align: center;
   margin-bottom: 1rem;
   font-size: 7rem;
+  @media (max-width: 1300px) {
+    font-size: 5rem;
+  }
+  @media (max-width: 900px) {
+    font-size: 5rem;
+    margin-bottom: 0;
+  }
+  @media (max-width: 500px) {
+    font-size: 3rem;
+    margin-bottom: 0;
+  }
 `
 
 const CenterDiv = styled.div`
@@ -16,6 +27,10 @@ const CenterDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
+  @media (max-width: 900px) {
+    flex-direction: row-reverse;
+    align-items: center;
+  }
 `
 
 const CoinSpotlight = props => {

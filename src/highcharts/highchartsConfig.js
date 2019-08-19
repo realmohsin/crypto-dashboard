@@ -1,3 +1,6 @@
+1336
+448
+
 export default historicalPrices => {
   return {
     title: {

@@ -228,6 +228,9 @@ const globalStyles = css`
   html {
     font-family: sans-serif;
     font-size: 62.5%;
+    @media (max-width: 1010px) {
+      font-size: 50%;
+    }
   }
 
   body {

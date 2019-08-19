@@ -7,9 +7,19 @@ import CoinTile from './CoinTile'
 
 const CoinGridStyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 2rem;
   margin-top: 4rem;
+  @media (max-width: 840px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 680px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 499px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `
 // minmax(130px, 1fr) - original
 

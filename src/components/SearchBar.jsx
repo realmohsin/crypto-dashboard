@@ -11,6 +11,9 @@ const SearchGrid = styled.div`
   margin-top: 5rem;
   display: grid;
   grid-template-columns: 15rem 1fr;
+  @media (max-width: 500px) {
+    margin-top: 8rem;
+  }
 `
 
 const SearchLabel = styled.div`
@@ -26,6 +29,9 @@ const SearchInput = styled.input`
   padding: 1rem;
   color: #1163c9;
   place-self: center left;
+  @media (max-width: 840px) {
+    width: 85%;
+  }
 `
 
 const handleFilter = debounce((inputValue, setFilteredCoins, coinList) => {
