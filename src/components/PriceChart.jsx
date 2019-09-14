@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from '@emotion/core'
 import ReactHighcharts from 'react-highcharts'
 import ChartSelect from './ChartSelect'
 import highchartsConfig from '../highcharts/highchartsConfig'

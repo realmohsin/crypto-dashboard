@@ -1,8 +1,6 @@
 import React from 'react'
-import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import appContext from '../appContext'
-import { SelectableTile } from './Tile'
 import CoinTile from './CoinTile'
 
 const CoinGridStyled = styled.div`

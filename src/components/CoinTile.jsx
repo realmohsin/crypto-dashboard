@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from '@emotion/core'
 import appContext from '../appContext'
 import { SelectableTile, DeletableTile, DisabledTile } from './Tile'
 import CoinHeaderGrid from './CoinHeaderGrid'

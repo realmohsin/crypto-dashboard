@@ -17,7 +17,7 @@ import { history } from './index'
 // public cryptocompare key
 cc.setApiKey('026d195375b081a9b380b618d1213ec2c3d6a440f7a3d032c8b2e99d8611e8b3')
 
-const MAX_FAVORITES = 5
+const MAX_FAVORITES = 10
 const TIME_UNITS = 10
 
 class App extends React.Component {

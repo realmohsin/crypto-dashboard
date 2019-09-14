@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from '@emotion/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import styled from '@emotion/styled'
