@@ -14,25 +14,17 @@ import AppLayout from './components/AppLayout'
 import appContext from './appContext'
 import { history } from './index'
 
-const MAX_FAVORITES = 10
+// public cryptocompare key
+cc.setApiKey('026d195375b081a9b380b618d1213ec2c3d6a440f7a3d032c8b2e99d8611e8b3')
+
+const MAX_FAVORITES = 5
 const TIME_UNITS = 10
 
 class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      favorites: [
-        'BTC',
-        'ETH',
-        'NXT',
-        'LTC',
-        'CLOAK',
-        '888',
-        'DASH',
-        'BTCD',
-        'CHASH',
-        'BLU'
-      ],
+      favorites: ['BTC', 'ETH', 'NXT', 'LTC', 'CLOAK'],
       confirmFavorites: this.confirmFavorites,
       timeInterval: 'months',
       addCoin: this.addCoin,
@@ -120,6 +112,7 @@ class App extends React.Component {
       return { firstVisit: true }
     }
     const { favorites, mainFavorite } = cryptoPriceData
+    console.log('favorites: ', favorites)
     return { firstVisit: false, favorites, mainFavorite }
   }
 
