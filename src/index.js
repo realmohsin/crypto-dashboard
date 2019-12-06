@@ -6,6 +6,8 @@ import { createBrowserHistory } from 'history'
 import App from './App'
 // import store from './store/store'
 
+console.log('new build')
+
 export const history = createBrowserHistory()
 
 const app = (
@@ -15,5 +17,3 @@ const app = (
 )
 
 render(app, document.getElementById('root'))
-
-
