@@ -24,8 +24,8 @@ const CoinGridStyled = styled.div`
 const getCoinsToDisplay = (coinList, topSection, favorites, filteredCoins) =>
   topSection
     ? favorites
-    : (filteredCoins && Object.keys(filteredCoins).slice(0, 100)) ||
-      Object.keys(coinList).slice(0, 100)
+    : (filteredCoins && Object.keys(filteredCoins).slice(0, 50)) ||
+      Object.keys(coinList).slice(0, 50)
 
 const CoinGrid = ({ topSection }) => {
   return (

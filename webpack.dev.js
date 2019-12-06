@@ -8,16 +8,17 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    filename: 'scripts/[name].[contenthash:8].js',
+    chunkFilename: 'scripts/[name].[contenthash:8].js',
     publicPath: '/'
   },
   devServer: {
-    contentBase: 'build',
+    contentBase: 'dist',
     overlay: true,
     port: 8080,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -48,11 +49,11 @@ module.exports = {
         test: /\.(jpe?g|png|svg|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
-              limit: 5000,
-              fallback: 'file-loader',
-              name: '[name].[ext]'
+              name: '[name].[contenthash:8].[ext]',
+              publicPath: '/images',
+              outputPath: '/images'
             }
           }
         ]
@@ -61,7 +62,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
+      favicon: 'src/assets/favicon.ico'
     })
   ]
 }

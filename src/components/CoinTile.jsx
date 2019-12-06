@@ -20,7 +20,12 @@ const CoinTile = ({ coinKey, topSection }) => {
         }
         return (
           <TileType
-            onClick={createClickHandler(topSection, addCoin, removeCoin, coinKey)}
+            onClick={createClickHandler(
+              topSection,
+              addCoin,
+              removeCoin,
+              coinKey
+            )}
           >
             <CoinHeaderGrid
               name={coin.CoinName}

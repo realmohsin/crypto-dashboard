@@ -1,5 +1,8 @@
 export default historicalPrices => {
   return {
+    chart: {
+      animation: false
+    },
     title: {
       text: ''
     },
@@ -18,9 +21,10 @@ export default historicalPrices => {
     plotOptions: {
       series: {
         label: {
-          connectorAllowed: false
+          connectorAllowed: true
         },
-        pointStart: 2010
+        pointStart: 2010,
+        animation: false
       }
     },
 
