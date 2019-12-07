@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import appContext from '../appContext'
 import PriceTile from './PriceTile'
 
-const PriceGridStyled = styled.div`
+const PriceGridStyled = styled.section`
   grid-area: a;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -27,7 +27,11 @@ const PriceGrid = props => {
         <PriceGridStyled>
           {prices &&
             prices.map((price, index) => (
-              <PriceTile key={`priceTile-${index}`} price={price} index={index} />
+              <PriceTile
+                key={`priceTile-${index}`}
+                price={price}
+                index={index}
+              />
             ))}
         </PriceGridStyled>
       )}

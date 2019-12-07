@@ -1,7 +1,7 @@
 export default (historicalPrices, height) => {
   return {
     chart: {
-      animation: false,
+      animation: true,
       height
     },
     title: {
@@ -25,7 +25,9 @@ export default (historicalPrices, height) => {
           connectorAllowed: true
         },
         pointStart: 2010,
-        animation: false
+        animation: {
+          duration: 1000
+        }
       }
     },
 

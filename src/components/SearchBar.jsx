@@ -15,7 +15,7 @@ const SearchGrid = styled.div`
   }
 `
 
-const SearchLabel = styled.div`
+const SearchLabel = styled.label`
   font-size: 2.4rem;
   place-self: center;
 `
@@ -37,7 +37,9 @@ const handleFilter = debounce((inputValue, setFilteredCoins, coinList) => {
   const coinSymbols = Object.keys(coinList)
   const coinNames = coinSymbols.map(coinSymbol => coinList[coinSymbol].CoinName)
   const stringsToSearch = coinSymbols.concat(coinNames)
-  const results = fuzzy.filter(inputValue, stringsToSearch).map(result => result.string)
+  const results = fuzzy
+    .filter(inputValue, stringsToSearch)
+    .map(result => result.string)
   const filteredCoins = pickBy(coinList, (result, symKey) => {
     const coinName = result.CoinName
     return results.includes(coinName) || results.includes(symKey)
@@ -56,7 +58,9 @@ const SearchBar = props => {
       {({ setFilteredCoins, coinList }) => (
         <SearchGrid>
           <SearchLabel>Search:</SearchLabel>
-          <SearchInput onKeyUp={e => filterCoins(e, setFilteredCoins, coinList)} />
+          <SearchInput
+            onKeyUp={e => filterCoins(e, setFilteredCoins, coinList)}
+          />
         </SearchGrid>
       )}
     </appContext.Consumer>

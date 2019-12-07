@@ -17,7 +17,7 @@ const DashboardStyled = styled.div`
   }
 `
 
-const ChartGrid = styled.div`
+const ChartGrid = styled.section`
   grid-area: b;
   display: grid;
   margin-top: 5rem;

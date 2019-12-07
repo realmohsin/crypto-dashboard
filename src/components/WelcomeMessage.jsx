@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import appContext from '../appContext'
 
-const WelcomeMessageStyled = styled.div`
+const WelcomeMessageStyled = styled.header`
   margin-top: 4rem;
   font-size: 3.4rem;
   text-align: center;
