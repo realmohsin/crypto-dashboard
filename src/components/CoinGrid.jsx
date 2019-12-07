@@ -21,26 +21,57 @@ const CoinGridStyled = styled.div`
 `
 // minmax(130px, 1fr) - original
 
-const getCoinsToDisplay = (coinList, topSection, favorites, filteredCoins) =>
+const getCoinsToDisplay = (
+  coinList,
+  topSection,
+  favorites,
+  filteredCoins,
+  numOfCoins
+) =>
   topSection
     ? favorites
-    : (filteredCoins && Object.keys(filteredCoins).slice(0, 50)) ||
-      Object.keys(coinList).slice(0, 50)
+    : (filteredCoins && Object.keys(filteredCoins).slice(0, numOfCoins)) ||
+      Object.keys(coinList).slice(0, numOfCoins)
 
-const CoinGrid = ({ topSection }) => {
-  return (
-    <appContext.Consumer>
-      {({ coinList, favorites, filteredCoins }) => (
-        <CoinGridStyled>
-          {getCoinsToDisplay(coinList, topSection, favorites, filteredCoins).map(
-            coinKey => (
-              <CoinTile key={coinKey} coinKey={coinKey} topSection={topSection} />
-            )
-          )}
-        </CoinGridStyled>
-      )}
-    </appContext.Consumer>
-  )
+class CoinGrid extends React.Component {
+  state = {
+    numOfCoins: 25
+  }
+
+  componentDidMount () {
+    this.timerId = setTimeout(() => {
+      this.setState({ numOfCoins: 50 })
+    }, 500)
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.timerId)
+  }
+
+  render () {
+    const { topSection } = this.props
+    return (
+      <appContext.Consumer>
+        {({ coinList, favorites, filteredCoins }) => (
+          <CoinGridStyled>
+            {getCoinsToDisplay(
+              coinList,
+              topSection,
+              favorites,
+              filteredCoins,
+              this.state.numOfCoins
+            ).map(coinKey => (
+              <CoinTile
+                key={coinKey}
+                coinKey={coinKey}
+                topSection={topSection}
+              />
+            ))}
+          </CoinGridStyled>
+        )}
+      </appContext.Consumer>
+    )
+  }
 }
 
 export default CoinGrid
