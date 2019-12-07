@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import pull from 'lodash/pull'
 import includes from 'lodash/includes'
 import subMonths from 'date-fns/sub_months'
@@ -7,12 +7,15 @@ import subWeeks from 'date-fns/sub_weeks'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 import cc from 'cryptocompare'
-import SettingsPage from './pages/SettingsPage'
+// import SettingsPage from './pages/SettingsPage'
 import Navbar from './components/Navbar'
-import DashboardPage from './pages/DashboardPage'
+// import DashboardPage from './pages/DashboardPage'
 import AppLayout from './components/AppLayout'
 import appContext from './appContext'
 import { history } from './index'
+
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage'))
+const DashboardPage = React.lazy(() => import('./pages/DashboardPage'))
 
 // public cryptocompare key
 cc.setApiKey('026d195375b081a9b380b618d1213ec2c3d6a440f7a3d032c8b2e99d8611e8b3')
@@ -178,7 +181,10 @@ class App extends React.Component {
   }
 
   changeChartSelect = timeInterval =>
-    this.setState({ timeInterval, historicalPrices: null }, this.fetchHistorical)
+    this.setState(
+      { timeInterval, historicalPrices: null },
+      this.fetchHistorical
+    )
 
   render () {
     const { firstVisit, coinList } = this.state
@@ -186,24 +192,34 @@ class App extends React.Component {
     return (
       <appContext.Provider value={this.state}>
         <Global styles={globalStyles} />
-        <AppLayout>
-          <Navbar />
-          {coinList ? (
-            <Switch>
-              <Route exact path='/' render={() => <Redirect to={rootRedirectPath} />} />
-              <Route
-                path='/dashboard'
-                render={() =>
-                  firstVisit ? <Redirect to={rootRedirectPath} /> : <DashboardPage />
-                }
-              />
-              <Route path='/settings' component={SettingsPage} />
-              <Route path='*' render={() => <h2>Page Not Found</h2>} />
-            </Switch>
-          ) : (
-            <div>Loading Coins</div>
-          )}
-        </AppLayout>
+        <Suspense fallback={<p>Loading...</p>}>
+          <AppLayout>
+            <Navbar />
+            {coinList ? (
+              <Switch>
+                <Route
+                  exact
+                  path='/'
+                  render={() => <Redirect to={rootRedirectPath} />}
+                />
+                <Route
+                  path='/dashboard'
+                  render={() =>
+                    firstVisit ? (
+                      <Redirect to={rootRedirectPath} />
+                    ) : (
+                      <DashboardPage />
+                    )
+                  }
+                />
+                <Route path='/settings' component={SettingsPage} />
+                <Route path='*' render={() => <h2>Page Not Found</h2>} />
+              </Switch>
+            ) : (
+              <div>Loading Coins</div>
+            )}
+          </AppLayout>
+        </Suspense>
       </appContext.Provider>
     )
   }
