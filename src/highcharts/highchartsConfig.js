@@ -1,7 +1,8 @@
-export default historicalPrices => {
+export default (historicalPrices, height) => {
   return {
     chart: {
-      animation: false
+      animation: false,
+      height
     },
     title: {
       text: ''

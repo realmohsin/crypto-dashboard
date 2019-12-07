@@ -8,24 +8,37 @@ import { Tile } from './Tile'
 
 ReactHighcharts.Highcharts.setOptions(highchartsTheme)
 
-const PriceChart = props => {
-  return (
-    <appContext.Consumer>
-      {({ historicalPrices, changeChartSelect, timeInterval }) => (
-        <Tile>
-          <ChartSelect
-            value={timeInterval}
-            onChange={e => changeChartSelect(e.target.value)}
-          >
-            <option value='days'>Days</option>
-            <option value='weeks'>Weeks</option>
-            <option value='months'>Months</option>
-          </ChartSelect>
-          <ReactHighcharts config={highchartsConfig(historicalPrices)} />
-        </Tile>
-      )}
-    </appContext.Consumer>
-  )
+class PriceChart extends React.Component {
+  state = { height: null }
+
+  componentDidMount () {
+    const height = parseInt(
+      document.querySelector('.highcharts-container').style.height
+    )
+    this.setState({ height })
+  }
+
+  render () {
+    return (
+      <appContext.Consumer>
+        {({ historicalPrices, changeChartSelect, timeInterval }) => (
+          <Tile noPadding>
+            <ChartSelect
+              value={timeInterval}
+              onChange={e => changeChartSelect(e.target.value)}
+            >
+              <option value='days'>Days</option>
+              <option value='weeks'>Weeks</option>
+              <option value='months'>Months</option>
+            </ChartSelect>
+            <ReactHighcharts
+              config={highchartsConfig(historicalPrices, this.state.height)}
+            />
+          </Tile>
+        )}
+      </appContext.Consumer>
+    )
+  }
 }
 
 export default PriceChart

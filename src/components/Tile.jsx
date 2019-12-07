@@ -10,6 +10,9 @@ export const Tile = styled.div`
   ${subtleBoxShadow};
   ${lightBlueBackground};
   padding: 1rem;
+  @media (max-width: 499px) {
+    padding: ${props => (props.noPadding ? 0 : '1rem')};
+  }
 `
 
 export const SelectableTile = styled(Tile)`
