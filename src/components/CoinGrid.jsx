@@ -39,9 +39,10 @@ class CoinGrid extends React.Component {
   }
 
   componentDidMount () {
-    this.timerId = setTimeout(() => {
+    const handleWindowScrollOnce = () => {
       this.setState({ numOfCoins: 50 })
-    }, 500)
+    }
+    window.addEventListener('scroll', handleWindowScrollOnce, { once: true })
   }
 
   componentWillUnmount () {
