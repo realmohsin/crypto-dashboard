@@ -35,7 +35,7 @@ const getCoinsToDisplay = (
 
 class CoinGrid extends React.Component {
   state = {
-    numOfCoins: 25
+    numOfCoins: 20
   }
 
   componentDidMount () {
