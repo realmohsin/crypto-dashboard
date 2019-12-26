@@ -6,6 +6,7 @@
 </h1>
 <p align="center">
 Data Visualization for Comparing CryptoCurrency Prices
+  
 Features include:
 Visualization of complex data in a graphical format
 Fast filtering through database of thousands of coins
