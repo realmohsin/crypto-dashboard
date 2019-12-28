@@ -7,11 +7,10 @@
 <p align="center">
 Data Visualization for Comparing CryptoCurrency Prices
   
-Features include:
-Visualization of complex data in a graphical format
-Fast filtering through database of thousands of coins
-User Interface design that is intuitive and responsive
-Technologies used: React, React-Router, Express, NodeJs
+Features include - visualization of complex data in a graphical format,
+fast filtering through database of thousands of coins,
+and user interface design that is intuitive and responsive.
+Technologies used - React, React-Router, Express, NodeJs.
 
 </p>
 
